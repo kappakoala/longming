@@ -51,7 +51,7 @@ node bazi-fortune-telling-mcp.js
 ```json
 {
   "mcpServers": {
-    "bazi-fortune": {
+    "龙铭大师": {
       "command": "bazi-fortune-mcp",
       "env": {}
     }
@@ -64,7 +64,7 @@ node bazi-fortune-telling-mcp.js
 ```json
 {
   "mcpServers": {
-    "bazi-fortune": {
+    "龙铭大师": {
       "command": "npx",
       "args": ["@longming/bazi-fortune-mcp"],
       "env": {}
@@ -78,7 +78,7 @@ node bazi-fortune-telling-mcp.js
 ```json
 {
   "mcpServers": {
-    "bazi-fortune": {
+    "龙铭大师": {
       "command": "node",
       "args": ["/path/to/bazi-fortune-telling-mcp.js"],
       "env": {}
