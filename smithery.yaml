@@ -1,0 +1,197 @@
+version: "0.1.0"
+
+# MCP服务基本信息
+name: "bazi-fortune-mcp"
+displayName: "🔮 龙铭大师八字测算"
+version: "1.0.2"
+description: "基于传统命理学的智能八字分析系统，为AI助手提供专业的八字测算功能。支持完整八字计算、运势评分、五行分析、喜用神推算等功能。"
+
+# 作者信息
+author:
+  name: "龙铭大师"
+  email: "longming@example.com"
+  url: "https://github.com/longming-ai"
+
+# 许可证
+license: "MIT"
+
+# 仓库信息
+repository:
+  type: "git"
+  url: "https://github.com/longming-ai/bazi-fortune-mcp.git"
+
+# 主页和文档链接
+homepage: "https://github.com/longming-ai/bazi-fortune-mcp#readme"
+documentation: "https://github.com/longming-ai/bazi-fortune-mcp/blob/main/README.md"
+bugTracker: "https://github.com/longming-ai/bazi-fortune-mcp/issues"
+
+# 标签和分类
+tags:
+  - "mcp"
+  - "fortune-telling" 
+  - "bazi"
+  - "chinese-astrology"
+  - "ai-tools"
+  - "traditional-culture"
+  - "命理"
+  - "八字"
+
+categories:
+  - "lifestyle"
+  - "entertainment"
+  - "culture"
+  - "analysis"
+
+# MCP服务配置
+mcp:
+  # 启动命令
+  command: "npx"
+  args: 
+    - "@longming/bazi-fortune-mcp"
+  
+  # 环境变量
+  env: {}
+  
+  # 支持的工具
+  tools:
+    - name: "calculate_bazi"
+      description: "根据出生年月日时和性别进行八字测算打分"
+      inputSchema:
+        type: "object"
+        properties:
+          year:
+            type: "string"
+            description: "出生年份 (例如: 1984)"
+          month:
+            type: "string"
+            description: "出生月份 (例如: 10)"
+          day:
+            type: "string"
+            description: "出生日期 (例如: 21)"
+          hour:
+            type: "string"
+            description: "出生小时 (例如: 20)"
+          minute:
+            type: "string"
+            description: "出生分钟 (例如: 30)"
+          gender:
+            type: "string"
+            description: "性别 (男/女)"
+            enum: ["男", "女"]
+        required: ["year", "month", "day", "hour", "minute", "gender"]
+
+# 安装配置
+install:
+  npm: "@longming/bazi-fortune-mcp"
+  
+  # 全局安装命令
+  global: "npm install -g @longming/bazi-fortune-mcp"
+  
+  # NPX直接运行
+  npx: "npx @longming/bazi-fortune-mcp"
+
+# 系统要求
+requirements:
+  node: ">=16.0.0"
+  npm: ">=7.0.0"
+  os: ["linux", "darwin", "win32"]
+
+# 功能特性
+features:
+  - "🔮 完整的八字测算分析 - 基于传统干支历法和五行理论"
+  - "📊 六维运势评分系统 - 财富、事业、学业、婚姻、交际、机遇"
+  - "🎯 五行喜用神分析 - 智能分析五行平衡和喜用神"
+  - "📈 大运流年预测 - 提供各年龄段运势分析"
+  - "🎨 个性化建议 - 适合职业、方位、颜色等建议"
+  - "📝 详细命理解读 - 专业的命理分析和人生指导"
+  - "🤖 MCP标准协议 - 完全兼容Claude和其他AI助手"
+  - "🌍 多平台支持 - 支持Windows、macOS、Linux"
+
+# 使用示例
+examples:
+  - title: "基本八字测算"
+    description: "计算1984年10月21日20:30出生男性的八字"
+    code: |
+      {
+        "name": "calculate_bazi",
+        "arguments": {
+          "year": "1984",
+          "month": "10", 
+          "day": "21",
+          "hour": "20",
+          "minute": "30",
+          "gender": "男"
+        }
+      }
+
+  - title: "Claude Desktop配置"
+    description: "在Claude Desktop中配置该MCP服务"
+    code: |
+      {
+        "mcpServers": {
+          "bazi-fortune": {
+            "command": "npx",
+            "args": ["@longming/bazi-fortune-mcp"],
+            "env": {}
+          }
+        }
+      }
+
+# 屏幕截图和媒体
+screenshots:
+  - url: "https://raw.githubusercontent.com/longming-ai/bazi-fortune-mcp/main/docs/screenshot-1.png"
+    alt: "八字测算结果示例"
+    caption: "使用龙铭大师八字测算系统生成的详细分析报告"
+
+# 更新日志
+changelog:
+  - version: "1.0.2"
+    date: "2024-09-06"
+    changes:
+      - "完善文档和配置"
+      - "优化错误处理"
+      - "增加更多测试用例"
+      
+  - version: "1.0.0"  
+    date: "2024-09-06"
+    changes:
+      - "🎉 首次发布"
+      - "✨ 完整的八字测算功能"
+      - "📊 六维运势评分系统"
+      - "🎯 五行分析和喜用神推算"
+      - "🤖 标准MCP协议支持"
+
+# 维护状态
+maintenance:
+  status: "active"
+  lastUpdated: "2024-09-06"
+  
+# 社区和支持
+community:
+  discussions: "https://github.com/longming-ai/bazi-fortune-mcp/discussions"
+  support: "https://github.com/longming-ai/bazi-fortune-mcp/issues"
+
+# 相关链接
+links:
+  - title: "NPM包页面"
+    url: "https://www.npmjs.com/package/@longming/bazi-fortune-mcp"
+  - title: "GitHub仓库"
+    url: "https://github.com/longming-ai/bazi-fortune-mcp"
+  - title: "安装指南"
+    url: "https://github.com/longming-ai/bazi-fortune-mcp/blob/main/INSTALL.md"
+  - title: "MCP协议文档"
+    url: "https://modelcontextprotocol.io/"
+
+# 免责声明和法律信息
+disclaimer: |
+  本服务仅供娱乐和研究使用，不构成专业命理建议。
+  测算结果基于传统命理学说，请理性看待。
+  建议结合实际情况和个人努力来规划人生。
+
+# 国际化支持
+i18n:
+  defaultLanguage: "zh-CN"
+  supportedLanguages:
+    - "zh-CN"
+    - "zh-TW" 
+    - "en-US"
