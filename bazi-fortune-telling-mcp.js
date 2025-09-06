@@ -135,22 +135,15 @@ class BaziFortuneTellingServer {
       const dom = new JSDOM(html);
       const document = dom.window.document;
 
-      // 提取主要内容区域
-      const contentDiv = document.querySelector('.read-content') || 
-                        document.querySelector('.content') || 
-                        document.querySelector('main');
-
-      let resultHtml;
-      if (contentDiv) {
-        resultHtml = contentDiv.innerHTML;
-      } else {
-        // 如果没有找到特定的内容div，获取主要结果区域
-        const resultArea = document.querySelector('h2')?.parentElement?.parentElement;
-        resultHtml = resultArea ? resultArea.innerHTML : document.body.innerHTML;
+      // 只查找class="read-content"的div标签
+      const contentDiv = document.querySelector('.read-content');
+      
+      if (!contentDiv) {
+        throw new Error('未找到read-content内容区域');
       }
 
-      // 转换为Markdown
-      const markdown = this.htmlToMarkdown(resultHtml, params);
+      // 直接转换为Markdown
+      const markdown = this.htmlToMarkdown(contentDiv.innerHTML, params);
       
       return markdown;
 
@@ -169,20 +162,20 @@ class BaziFortuneTellingServer {
     // 添加标题
     markdown += `# ${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分\n\n`;
 
-    // 处理段落
-    document.querySelectorAll('p').forEach(p => {
-      const text = p.textContent.trim();
-      if (text && !text.includes('展开剩余') && !text.includes('本站声明')) {
-        markdown += `${text}\n\n`;
-      }
-    });
-
     // 处理标题
     document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
       const level = parseInt(h.tagName.charAt(1));
       const text = h.textContent.trim();
       if (text) {
-        markdown += `${'#'.repeat(level)} ${text}\n\n`;
+        markdown += `${'#'.repeat(level + 1)} ${text}\n\n`;
+      }
+    });
+
+    // 处理段落
+    document.querySelectorAll('p').forEach(p => {
+      const text = p.textContent.trim();
+      if (text) {
+        markdown += `${text}\n\n`;
       }
     });
 
@@ -195,26 +188,6 @@ class BaziFortuneTellingServer {
     document.querySelectorAll('ul, ol').forEach(list => {
       markdown += this.processList(list);
     });
-
-    // 处理特殊内容 - 八字信息
-    const baziInfo = this.extractBaziInfo(document);
-    if (baziInfo) {
-      markdown += '## 八字基本信息\n\n';
-      Object.entries(baziInfo).forEach(([key, value]) => {
-        markdown += `**${key}:** ${value}\n`;
-      });
-      markdown += '\n';
-    }
-
-    // 处理特殊内容 - 运势评分
-    const scores = this.extractScores(document);
-    if (scores) {
-      markdown += '## 运势评分\n\n';
-      Object.entries(scores).forEach(([key, value]) => {
-        markdown += `- **${key}:** ${value}\n`;
-      });
-      markdown += '\n';
-    }
 
     return markdown;
   }
@@ -272,43 +245,6 @@ class BaziFortuneTellingServer {
 
     markdown += '\n';
     return markdown;
-  }
-
-  extractBaziInfo(document) {
-    const baziInfo = {};
-    
-    // 提取基本信息
-    const basicInfo = document.querySelectorAll('p');
-    basicInfo.forEach(p => {
-      const text = p.textContent.trim();
-      if (text.includes('男命：')) {
-        baziInfo['公历生日'] = text.replace('男命：', '').trim();
-      } else if (text.includes('农历：')) {
-        baziInfo['农历生日'] = text.replace('农历：', '').trim();
-      } else if (text.includes('八字：')) {
-        baziInfo['八字'] = text.replace('八字：', '').trim();
-      }
-    });
-
-    return Object.keys(baziInfo).length > 0 ? baziInfo : null;
-  }
-
-  extractScores(document) {
-    const scores = {};
-    
-    // 查找分数信息 - 使用正确的选择器语法
-    const scoreElements = document.querySelectorAll('td');
-    scoreElements.forEach(element => {
-      const text = element.textContent.trim();
-      if (text.includes('分') && text.length < 20) {
-        const parts = text.split(' ');
-        if (parts.length === 2) {
-          scores[parts[0]] = parts[1];
-        }
-      }
-    });
-
-    return Object.keys(scores).length > 0 ? scores : null;
   }
 
   async run() {

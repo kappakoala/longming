@@ -3,7 +3,7 @@ version: "0.1.0"
 # MCP服务基本信息
 name: "bazi-fortune-mcp"
 displayName: "🔮 龙铭大师八字测算"
-version: "1.0.2"
+version: "1.0.3"
 description: "基于传统命理学的智能八字分析系统，为AI助手提供专业的八字测算功能。支持完整八字计算、运势评分、五行分析、喜用神推算等功能。"
 
 # 作者信息
@@ -143,3 +143,57 @@ disclaimer: |
   本服务仅供娱乐和研究使用，不构成专业命理建议。
   测算结果基于传统命理学说，请理性看待。
   建议结合实际情况和个人努力来规划人生。
+
+# 更新日志
+changelog:
+  - version: "1.0.3"
+    date: "2024-09-06"
+    changes:
+      - "简化代码逻辑，只提取read-content内容"
+      - "移除不必要的额外处理逻辑"
+      - "优化HTML到Markdown转换效率"
+      
+  - version: "1.0.2"
+    date: "2024-09-06"
+    changes:
+      - "完善文档和配置"
+      - "优化错误处理"
+      - "增加更多测试用例"
+      
+  - version: "1.0.0"  
+    date: "2024-09-06"
+    changes:
+      - "🎉 首次发布"
+      - "✨ 完整的八字测算功能"
+      - "📊 六维运势评分系统"
+      - "🎯 五行分析和喜用神推算"
+      - "🤖 标准MCP协议支持"
+
+# 维护状态
+maintenance:
+  status: "active"
+  lastUpdated: "2024-09-06"
+  
+# 社区和支持
+community:
+  discussions: "https://github.com/kappakoala/longming/discussions"
+  support: "https://github.com/kappakoala/longming/issues"
+
+# 相关链接
+links:
+  - title: "NPM包页面"
+    url: "https://www.npmjs.com/package/@longming/bazi-fortune-mcp"
+  - title: "GitHub仓库"
+    url: "https://github.com/kappakoala/longming"
+  - title: "安装指南"
+    url: "https://github.com/kappakoala/longming/blob/main/INSTALL.md"
+  - title: "MCP协议文档"
+    url: "https://modelcontextprotocol.io/"
+
+# 国际化支持
+i18n:
+  defaultLanguage: "zh-CN"
+  supportedLanguages:
+    - "zh-CN"
+    - "zh-TW" 
+    - "en-US"
