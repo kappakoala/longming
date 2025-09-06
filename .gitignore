@@ -92,10 +92,9 @@ logs
 .claude/
 
 # Test files (if any)
-test/
-tests/
+test*
 
-需求.md
+需求*
 bazi-fortune-telling/
 GITHUB.md
 GITHUB_SETUP.md
