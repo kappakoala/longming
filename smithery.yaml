@@ -9,8 +9,8 @@ description: "基于传统命理学的智能八字分析系统，为AI助手提�
 # 作者信息
 author:
   name: "龙铭大师"
-  email: "longming@example.com"
-  url: "https://github.com/longming-ai"
+  email: "wuwflb@gmail.com"
+  url: "https://github.com/kappakoala"
 
 # 许可证
 license: "MIT"
@@ -18,7 +18,7 @@ license: "MIT"
 # 仓库信息
 repository:
   type: "git"
-  url: "https://github.com/longming-ai/bazi-fortune-mcp.git"
+  url: "https://github.com/kappakoala/longming.git"
 
 # 主页和文档链接
 homepage: "https://github.com/longming-ai/bazi-fortune-mcp#readme"
