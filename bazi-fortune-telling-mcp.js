@@ -35,6 +35,100 @@ class BaziFortuneTellingServer {
       strongDelimiter: '**',  // 使用 ** 作为粗体标记
     });
 
+    // 自定义规则：忽略img标签
+    this.turndownService.addRule('ignoreImages', {
+      filter: 'img',
+      replacement: () => '' // 完全忽略图片
+    });
+
+    // 自定义规则：优化表格处理，保持结构化信息
+    this.turndownService.addRule('tables', {
+      filter: 'table',
+      replacement: (content, node) => {
+        const rows = Array.from(node.querySelectorAll('tr'));
+        if (rows.length === 0) return '';
+        
+        // 检查是否是有意义的数据表格
+        // 如果表格包含太多嵌套表格或过于复杂，就跳过
+        const nestedTables = node.querySelectorAll('table');
+        if (nestedTables.length > 0) {
+          // 跳过包含嵌套表格的复杂表格
+          return '';
+        }
+        
+        // 检查是否主要包含图片
+        const images = node.querySelectorAll('img');
+        const textContent = node.textContent.trim();
+        if (images.length > 0 && textContent.length < 50) {
+          // 跳过主要是图片的表格
+          return '';
+        }
+        
+        let markdown = '\n\n';
+        let maxCols = 0;
+        
+        // 首先确定最大列数
+        rows.forEach(row => {
+          const cells = Array.from(row.querySelectorAll('td, th'));
+          maxCols = Math.max(maxCols, cells.length);
+        });
+        
+        if (maxCols === 0 || maxCols > 10) {
+          // 跳过没有列或列数过多的表格
+          return '';
+        }
+        
+        let hasValidContent = false;
+        
+        rows.forEach((row, rowIndex) => {
+          const cells = Array.from(row.querySelectorAll('td, th'));
+          
+          // 检查这一行是否有有效内容
+          const rowText = cells.map(cell => cell.textContent.trim()).join('');
+          if (!rowText) return; // 跳过空行
+          
+          hasValidContent = true;
+          
+          // 构建表格行
+          markdown += '| ';
+          
+          for (let i = 0; i < maxCols; i++) {
+            if (i < cells.length) {
+              // 获取单元格文本内容，处理换行和空格
+              let cellText = cells[i].textContent.trim();
+              cellText = cellText.replace(/\s+/g, ' '); // 合并多个空格
+              cellText = cellText.replace(/\|/g, '\\|'); // 转义管道符
+              // 限制单元格内容长度，避免过长
+              if (cellText.length > 20) {
+                cellText = cellText.substring(0, 20) + '...';
+              }
+              markdown += `${cellText} | `;
+            } else {
+              markdown += ' | '; // 空单元格
+            }
+          }
+          
+          markdown += '\n';
+          
+          // 在第一行后添加分隔线
+          if (rowIndex === 0) {
+            markdown += '| ';
+            for (let i = 0; i < maxCols; i++) {
+              markdown += '--- | ';
+            }
+            markdown += '\n';
+          }
+        });
+        
+        if (!hasValidContent) {
+          return ''; // 如果没有有效内容，返回空
+        }
+        
+        markdown += '\n';
+        return markdown;
+      }
+    });
+
     this.setupToolHandlers();
   }
 
