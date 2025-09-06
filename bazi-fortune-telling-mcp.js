@@ -8,6 +8,7 @@ const {
 } = require("@modelcontextprotocol/sdk/types.js");
 const fetch = require('node-fetch');
 const jsdom = require('jsdom');
+const TurndownService = require('turndown');
 const { JSDOM } = jsdom;
 
 class BaziFortuneTellingServer {
@@ -24,6 +25,15 @@ class BaziFortuneTellingServer {
         },
       }
     );
+
+    // 初始化Turndown服务
+    this.turndownService = new TurndownService({
+      headingStyle: 'atx',  // 使用 # 风格的标题
+      codeBlockStyle: 'fenced',  // 使用 ``` 风格的代码块
+      bulletListMarker: '-',  // 使用 - 作为列表标记
+      emDelimiter: '*',  // 使用 * 作为强调标记
+      strongDelimiter: '**',  // 使用 ** 作为粗体标记
+    });
 
     this.setupToolHandlers();
   }
@@ -154,97 +164,13 @@ class BaziFortuneTellingServer {
   }
 
   htmlToMarkdown(html, params) {
-    const dom = new JSDOM(html);
-    const document = dom.window.document;
+    // 添加主标题
+    let title = `# ${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分\n\n`;
     
-    let markdown = '';
-
-    // 添加标题
-    markdown += `# ${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分\n\n`;
-
-    // 处理标题
-    document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
-      const level = parseInt(h.tagName.charAt(1));
-      const text = h.textContent.trim();
-      if (text) {
-        markdown += `${'#'.repeat(level + 1)} ${text}\n\n`;
-      }
-    });
-
-    // 处理段落
-    document.querySelectorAll('p').forEach(p => {
-      const text = p.textContent.trim();
-      if (text) {
-        markdown += `${text}\n\n`;
-      }
-    });
-
-    // 处理表格
-    document.querySelectorAll('table').forEach(table => {
-      markdown += this.processTable(table);
-    });
-
-    // 处理列表
-    document.querySelectorAll('ul, ol').forEach(list => {
-      markdown += this.processList(list);
-    });
-
-    return markdown;
-  }
-
-  processTable(table) {
-    let markdown = '\n';
+    // 使用Turndown转换HTML为Markdown，保持原始结构顺序
+    const markdown = this.turndownService.turndown(html);
     
-    // 处理表头
-    const headers = table.querySelectorAll('tr:first-child td, tr:first-child th');
-    if (headers.length > 0) {
-      markdown += '| ';
-      headers.forEach(header => {
-        markdown += `${header.textContent.trim()} | `;
-      });
-      markdown += '\n';
-      
-      markdown += '| ';
-      headers.forEach(() => {
-        markdown += '--- | ';
-      });
-      markdown += '\n';
-    }
-
-    // 处理表格行
-    const rows = table.querySelectorAll('tr:not(:first-child)');
-    rows.forEach(row => {
-      const cells = row.querySelectorAll('td, th');
-      if (cells.length > 0) {
-        markdown += '| ';
-        cells.forEach(cell => {
-          markdown += `${cell.textContent.trim()} | `;
-        });
-        markdown += '\n';
-      }
-    });
-
-    markdown += '\n';
-    return markdown;
-  }
-
-  processList(list) {
-    let markdown = '\n';
-    const items = list.querySelectorAll('li');
-    
-    items.forEach((item, index) => {
-      const text = item.textContent.trim();
-      if (text) {
-        if (list.tagName === 'OL') {
-          markdown += `${index + 1}. ${text}\n`;
-        } else {
-          markdown += `- ${text}\n`;
-        }
-      }
-    });
-
-    markdown += '\n';
-    return markdown;
+    return title + markdown;
   }
 
   async run() {

@@ -1,6 +1,6 @@
 {
   "name": "@longming/bazi-fortune-mcp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "龙铭大师八字测算打分 MCP 服务 - 基于传统命理学的智能八字分析系统",
   "main": "bazi-fortune-telling-mcp.js",
   "bin": {
@@ -35,8 +35,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.5.0",
+    "jsdom": "^22.1.0",
     "node-fetch": "^2.7.0",
-    "jsdom": "^22.1.0"
+    "turndown": "^7.2.1"
   },
   "engines": {
     "node": ">=16.0.0"

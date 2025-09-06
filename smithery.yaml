@@ -3,7 +3,7 @@ version: "0.1.0"
 # MCP服务基本信息
 name: "bazi-fortune-mcp"
 displayName: "🔮 龙铭大师八字测算"
-version: "1.0.3"
+version: "1.0.4"
 description: "基于传统命理学的智能八字分析系统，为AI助手提供专业的八字测算功能。支持完整八字计算、运势评分、五行分析、喜用神推算等功能。"
 
 # 作者信息
@@ -146,6 +146,14 @@ disclaimer: |
 
 # 更新日志
 changelog:
+  - version: "1.0.4"
+    date: "2024-09-06"
+    changes:
+      - "使用Turndown库优化HTML到Markdown转换"
+      - "修复标题和正文不对应的问题"
+      - "保持原始HTML结构顺序"
+      - "移除手动HTML解析逻辑"
+      
   - version: "1.0.3"
     date: "2024-09-06"
     changes:
