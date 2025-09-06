@@ -46,20 +46,7 @@ node bazi-fortune-telling-mcp.js
 
 在您的 Claude Desktop 配置文件中添加以下配置：
 
-#### 方法 A: 使用全局安装
-
-```json
-{
-  "mcpServers": {
-    "龙铭大师": {
-      "command": "bazi-fortune-mcp",
-      "env": {}
-    }
-  }
-}
-```
-
-#### 方法 B: 使用 npx
+#### 方法 A: 使用 npx
 
 ```json
 {
@@ -73,7 +60,7 @@ node bazi-fortune-telling-mcp.js
 }
 ```
 
-#### 方法 C: 本地开发
+#### 方法 B: 本地开发
 
 ```json
 {
