@@ -94,3 +94,9 @@ logs
 # Test files (if any)
 test/
 tests/
+
+需求.md
+bazi-fortune-telling/
+GITHUB.md
+GITHUB_SETUP.md
+INSTALL.md

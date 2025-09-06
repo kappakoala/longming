@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "bazi-fortune-telling": {
-      "command": "node",
-      "args": ["src/index.js"],
-      "env": {}
-    }
-  }
-}

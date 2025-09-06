@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "bazi-fortune": {
-      "command": "node",
-      "args": ["/Users/koala/Documents/E.T.Koala/Agents/龙铭大师/cc/bazi-fortune-telling-mcp.js"],
-      "env": {}
-    }
-  }
-}
