@@ -60,7 +60,7 @@ class BaziFortuneTellingServer {
                   type: "string",
                   description: "出生分钟 (例如: 4)",
                 },
-                gender: {
+                sex: {
                   type: "string",
                   description: "性别 (男/女)",
                   enum: ["男", "女"],
@@ -105,7 +105,7 @@ class BaziFortuneTellingServer {
   }
 
   async calculateBazi(params) {
-    const { year, month, day, hour, minute, gender } = params;
+    const { year, month, day, hour, minute, sex } = params;
 
     // 构建表单数据
     const formData = new URLSearchParams();
@@ -114,7 +114,7 @@ class BaziFortuneTellingServer {
     formData.append('d', day);
     formData.append('h', hour);
     formData.append('i', minute);
-    formData.append('s', gender === '男' ? '1' : '2');
+    formData.append('sex', sex === '男' ? '1' : '2');
 
     try {
       // 发送POST请求到格美起名网
@@ -143,26 +143,13 @@ class BaziFortuneTellingServer {
       if (!contentDiv) {
         throw new Error('未找到read-content内容区域');
       }
-
-      // 直接返回HTML代码片段
-      const content = this.extractHtmlContent(contentDiv, params);
       
-      return content;
+      return contentDiv.innerHTML;
 
     } catch (error) {
       console.error('请求失败:', error);
       throw new Error(`无法连接到测算服务: ${error.message}`);
     }
-  }
-
-  extractHtmlContent(contentDiv, params) {
-    // 添加主标题
-    let title = `<h1>${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分</h1>\n\n`;
-    
-    // 直接返回HTML代码片段，保持完整的表格结构
-    const htmlContent = contentDiv.innerHTML;
-    
-    return title + htmlContent;
   }
 
   async run() {
