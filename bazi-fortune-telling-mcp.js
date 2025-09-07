@@ -144,8 +144,8 @@ class BaziFortuneTellingServer {
         throw new Error('未找到read-content内容区域');
       }
 
-      // 直接提取文本内容
-      const content = this.extractContent(contentDiv, params);
+      // 直接返回HTML代码片段
+      const content = this.extractHtmlContent(contentDiv, params);
       
       return content;
 
@@ -155,14 +155,14 @@ class BaziFortuneTellingServer {
     }
   }
 
-  extractContent(contentDiv, params) {
+  extractHtmlContent(contentDiv, params) {
     // 添加主标题
-    let title = `${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分\n\n`;
+    let title = `<h1>${params.year}年${params.month}月${params.day}日${params.hour}时${params.minute}分${params.gender}命八字测算打分</h1>\n\n`;
     
-    // 直接提取文本内容，保持原始格式
-    const textContent = contentDiv.textContent || contentDiv.innerText || '';
+    // 直接返回HTML代码片段，保持完整的表格结构
+    const htmlContent = contentDiv.innerHTML;
     
-    return title + textContent;
+    return title + htmlContent;
   }
 
   async run() {
